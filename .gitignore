@@ -1,0 +1,8 @@
+.DS_Store
+.gradle
+.idea
+build
+src/downloads/*
+*.ipr
+*.iws
+supervisord.*

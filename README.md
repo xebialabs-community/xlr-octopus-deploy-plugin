@@ -1,9 +1,9 @@
 # Octopus Deploy plugin
 
 
-[![Build Status][xld-octopus-deploy-plugin-travis-image]][xlr-octopus-deploy-plugin-travis-url]
-[![License: MIT][xld-octopus-deploy-plugin-license-image]][xlr-octopus-deploy-plugin-license-url]
-![Github All Releases][xld-octopus-deploy-plugin-downloads-image]
+[![Build Status][xlr-octopus-deploy-plugin-travis-image]][xlr-octopus-deploy-plugin-travis-url]
+[![License: MIT][xlr-octopus-deploy-plugin-license-image]][xlr-octopus-deploy-plugin-license-url]
+![Github All Releases][xlr-octopus-deploy-plugin-downloads-image]
 
 [xlr-octopus-deploy-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-octopus-deploy-plugin.svg?branch=master
 [xlr-octopus-deploy-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-octopus-deploy-plugin

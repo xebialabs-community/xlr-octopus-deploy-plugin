@@ -27,7 +27,7 @@ This XL Release plugin can trigger deployments on Octopus Deploy.
 
 ## Installation
 
-* Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xld-octopus-deploy-plugin/releases) into the `XL_RELEASE_SERVER/plugins` directory.
+* Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xlr-octopus-deploy-plugin/releases) into the `XL_RELEASE_SERVER/plugins` directory.
 * Restart the XL Release server.
 
 ## Usage

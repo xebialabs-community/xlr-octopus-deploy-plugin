@@ -85,29 +85,24 @@ class OctopusClient(object):
        
     def getEnvironmentId(self, environment):
         url = '/api/environments/all'
-        response = self.httpRequest.get(url, headers=self.headers)
-        if response.getStatus() in HTTP_SUCCESS:
-            data = json.loads(response.getResponse())
-            print("data = %s" % data)
-            for env in data:
-                print "NAME = %s/%s ID = %s" % (env["Name"], environment, env["Id"])
-                if env["Name"] == environment:
-                    return env["Id"]
-            sys.exit("Environment Not Found")
-        self.throw_error(response)
+        self.getId( url, environment )
 
     def getProjectId(self, project):
         url = '/api/projects/all'
+        self.getId( url, project )
+       
+    def getId(self, url, objName):
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() in HTTP_SUCCESS:
             data = json.loads(response.getResponse())
             print("data = %s" % data)
-            for prj in data:
-                print "NAME = %s/%s ID = %s" % (prj["Name"], project, prj["Id"])
-                if prj["Name"] == project:
-                    return prj["Id"]
-            sys.exit("Project Not Found")
+            for obj in data:
+                print "NAME = %s/%s ID = %s" % (obj["Name"], objName, obj["Id"])
+                if obj["Name"] == objName:
+                    return obj["Id"]
+            sys.exit("Not Found")
         self.throw_error(response)
+
 
     def wait_for_deploy(self, deploymentId):
         url = '/api/deployments/%s' % deploymentId

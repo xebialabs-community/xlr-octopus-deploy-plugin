@@ -30,15 +30,16 @@
 
     <type type="octopus.CreateRelease" extends="xlrelease.PythonScript">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
-        <property name="project"        category="input"/>
+        <property name="project"          category="input"/>
         <property name="version"          category="input"/>
         <property name="selectedPackages" category="input" size="large"/>
 
         <property name="releaseId" category="output" />
+    </type>
 
     <type type="octopus.getProjectId" extends="xlrelease.PythonScript">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
-        <property name="project"        category="input"/>
+        <property name="project"   category="input"/>
 
         <property name="projectId" category="output" />
     </type>

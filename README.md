@@ -27,6 +27,8 @@ See the [XL Release reference manual](https://docs.xebialabs.com/xl-release) for
 
 This XL Release plugin can trigger deployments on Octopus Deploy.
 
+[![Octopus_Demo](images/Demo_Template.png)](images/Octopus_Demo.xlr)
+
 ## Requirements
 
 * XL Release 6.0+

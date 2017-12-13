@@ -100,9 +100,8 @@ class OctopusClient(object):
                 print "NAME = %s/%s ID = %s" % (obj["Name"], objName, obj["Id"])
                 if obj["Name"] == objName:
                     return obj["Id"]
-        else:
             sys.exit("Not Found")
-            self.throw_error(response)
+        self.throw_error(response)
 
 
     def wait_for_deploy(self, deploymentId):

@@ -35,6 +35,19 @@
         <property name="selectedPackages" category="input" size="large"/>
 
         <property name="releaseId" category="output" />
+
+    <type type="octopus.getProjectId" extends="xlrelease.PythonScript">
+        <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
+        <property name="project"        category="input"/>
+
+        <property name="projectId" category="output" />
+    </type>
+
+    <type type="octopus.getEnvironmentId" extends="xlrelease.PythonScript">
+        <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
+        <property name="environment"        category="input"/>
+
+        <property name="environmentId" category="output" />
     </type>
 
 </synthetic>

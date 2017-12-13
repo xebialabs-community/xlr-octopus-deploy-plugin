@@ -31,3 +31,15 @@ This XL Release plugin can trigger deployments on Octopus Deploy.
 * Restart the XL Release server.
 
 ## Usage
+
+### Create Releases
+
+Creates a new Octopus Release and returns it's ```releaseId```
+
+![CreateRlease](images/CreateRelease.png)
+
+### Deploy
+
+Deploy a ```releaseId``` to an ```environment```
+
+![Deploy](images/Deploy.png)

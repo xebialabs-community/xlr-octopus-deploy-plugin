@@ -93,15 +93,17 @@ class OctopusClient(object):
        
     def getId(self, url, objName):
         response = self.httpRequest.get(url, headers=self.headers)
+        objId = -1
         if response.getStatus() in HTTP_SUCCESS:
             data = json.loads(response.getResponse())
             print("data = %s" % data)
             for obj in data:
                 print "NAME = %s/%s ID = %s" % (obj["Name"], objName, obj["Id"])
                 if obj["Name"] == objName:
-                    return obj["Id"]
-            sys.exit("Not Found")
-        self.throw_error(response)
+                    objId = obj["Id"]
+        if objId == -1:
+            self.throw_error(response)
+        return objId
 
 
     def wait_for_deploy(self, deploymentId):

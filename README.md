@@ -2,6 +2,8 @@
 
 
 [![Build Status][xlr-octopus-deploy-plugin-travis-image]][xlr-octopus-deploy-plugin-travis-url]
+[![Maintainability][xlr-octopus-deploy-plugin-Maintainability-url]][xlr-octopus-deploy-plugin-Maintainability-image]
+[![Codacy Badge][xlr-octopus-deploy-plugin-Codacy-url]][xlr-octopus-deploy-plugin-Codacy-image]
 [![License: MIT][xlr-octopus-deploy-plugin-license-image]][xlr-octopus-deploy-plugin-license-url]
 ![Github All Releases][xlr-octopus-deploy-plugin-downloads-image]
 
@@ -10,6 +12,10 @@
 [xlr-octopus-deploy-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
 [xlr-octopus-deploy-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-octopus-deploy-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-octopus-deploy-plugin/total.svg
+[xlr-octopus-deploy-plugin-Maintainability-url]: https://api.codeclimate.com/v1/badges/ca5d70a7bbb5d238bfdf/maintainability
+[xlr-octopus-deploy-plugin-Maintainability-image]: https://codeclimate.com/github/xebialabs-community/xlr-octopus-deploy-plugin/maintainability
+[xlr-octopus-deploy-plugin-Codacy-url]: https://api.codacy.com/project/badge/Grade/ff2717a153b64ca096313015ca7207f7
+[xlr-octopus-deploy-plugin-Codacy-image]: https://www.codacy.com/app/Rick-BrokerOrganization/xlr-octopus-deploy-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xebialabs-community/xlr-octopus-deploy-plugin&amp;utm_campaign=Badge_Grade
 
 ## Preface
 
@@ -21,6 +27,8 @@ See the [XL Release reference manual](https://docs.xebialabs.com/xl-release) for
 
 This XL Release plugin can trigger deployments on Octopus Deploy.
 
+[![Octopus_Demo](images/Demo_Template.png)](images/Octopus_Demo.xlr)
+
 ## Requirements
 
 * XL Release 6.0+
@@ -31,3 +39,15 @@ This XL Release plugin can trigger deployments on Octopus Deploy.
 * Restart the XL Release server.
 
 ## Usage
+
+### Create Releases
+
+Creates a new Octopus Release and returns it's ```releaseId```
+
+![CreateRlease](images/CreateRelease.png)
+
+### Deploy
+
+Deploy a ```releaseId``` to an ```environment```
+
+![Deploy](images/Deploy.png)

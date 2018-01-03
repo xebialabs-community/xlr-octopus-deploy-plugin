@@ -1,5 +1,5 @@
 #
-# Copyright 2017 XEBIALABS
+# Copyright 2018 XEBIALABS
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
@@ -16,12 +16,13 @@ from xlrelease.HttpRequest import HttpRequest
 HTTP_SUCCESS = sets.Set([200, 201])
 
 class OctopusClient(object):
+    
     def __init__(self, httpConnection, apiKey):
         self.httpConnection = httpConnection
         self.httpRequest = HttpRequest(httpConnection)
         self.apiKey = apiKey
         self.headers = self._get_headers()
-        self.logger = getattr(__builtin__, 'logger', None)
+        
 
     @staticmethod
     def create_client(httpConnection, apiKey):
@@ -35,11 +36,12 @@ class OctopusClient(object):
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() in HTTP_SUCCESS: 
             data = json.loads(response.getResponse())
-            self.logger.info(json.dumps(data))
+            print(json.dumps(data))
         else:
             self.throw_error(response)
 
-    def start_deploy(self, releaseId, environmentId):
+    def start_deploy(self, releaseId, environment):
+        environmentId = self.getEnvironmentId(environment)
         url = '/api/deployments'
         data = {
             "ReleaseId":releaseId,
@@ -55,12 +57,52 @@ class OctopusClient(object):
             "ExcludedMachineIds":[],
             "ForcePackageRedeployment":False
         }
+        print("data = %s" % data)
         response = self.httpRequest.post(url, headers=self.headers, body=json.dumps(data))
-        if response.getStatus() in HTTP_SUCCESS: 
-           data = json.loads(response.getResponse())
-           self.logger.info(json.dumps(data))
-           return data["Id"]
+        if response.getStatus() in HTTP_SUCCESS:
+            data = json.loads(response.getResponse())
+            print(json.dumps(data))
+            return data["Id"]
         self.throw_error(response)
+
+    def createRelease(self, version, project, selectedPackages):
+        projectId = self.getProjectId(project)
+        url = '/api/releases'
+        packages = json.loads(selectedPackages)
+        data = {
+            "Version": version,
+            "ProjectId": projectId,
+            "SelectedPackages": packages
+        }
+        print("data = %s" % data)
+        response = self.httpRequest.post(url, headers=self.headers, body=json.dumps(data))
+        print("HTTP_SUCCESS = %s" % response.getStatus())
+        if response.getStatus() in HTTP_SUCCESS:
+            data = json.loads(response.getResponse())
+            print("data = %s" % data)
+            return data["Id"]
+        self.throw_error(response)
+       
+    def getEnvironmentId(self, environment):
+        url = '/api/environments/all'
+        self.getId( url, environment )
+
+    def getProjectId(self, project):
+        url = '/api/projects/all'
+        self.getId( url, project )
+       
+    def getId(self, url, objName):
+        response = self.httpRequest.get(url, headers=self.headers)
+        if response.getStatus() not in HTTP_SUCCESS:
+            self.throw_error("Response Error %s" % response.getStatus())
+        data = json.loads(response.getResponse())
+        print("data = %s" % data)
+        for obj in data:
+            print "NAME = %s/%s ID = %s" % (obj["Name"], objName, obj["Id"])
+            if obj["Name"] == objName:
+                return obj["Id"]
+        sys.exit("Not Found")
+
 
     def wait_for_deploy(self, deploymentId):
         url = '/api/deployments/%s' % deploymentId
@@ -69,7 +111,7 @@ class OctopusClient(object):
             self.throw_error(response)
     
         deployment_details = json.loads(response.getResponse())
-        self.logger.info(json.dumps(deployment_details))
+        print(json.dumps(deployment_details))
         taskUrl = deployment_details["Links"]["Task"]  
 
         time.sleep(5)
@@ -77,14 +119,14 @@ class OctopusClient(object):
 
         while not task_details["IsCompleted"]:            
             task_details = self.get_task_details(taskUrl)
-            self.logger.info(json.dumps(task_details))
+            print(json.dumps(task_details))
             time.sleep(5)
 
         if task_details["FinishedSuccessfully"]:
-            self.logger.info("Deployment finished successfully.")
+            print("Deployment finished successfully.")
         else:
             msg = "Deployment failed, errors: [%s]" % task_details["ErrorMessage"]
-            self.logger.error(msg)
+            print(msg)
             sys.exit(msg)
             
     def get_task_details(self, taskUrl):
@@ -93,8 +135,8 @@ class OctopusClient(object):
             self.throw_error(response) 
         else: 
             return json.loads(response.getResponse())
-
+       
     def throw_error(self, response):
-        msg = "Error from server, HTTP Return: %s, content %s\n" % (response.getStatus(),  response.response)
-        self.logger.error(msg)
+        msg = "Error from server, HTTP Return: %s, content %s\n" % (response.getStatus(),  response.getResponse())
+        print msg
         sys.exit(msg)

@@ -1,1 +1,19 @@
 language: java
+sudo: false
+notifications:
+  slack:
+    secure: WzdS5sSSQziwbZwqW8nCddRGC8SSrgcPyVn9NbV2MOkqa4mFawQOL05CCOc0RfV7otCCqxsDqXAehuyKzEVA8VrQ1g10Eelppbnv9WxDYzIj1M2MPmyo4RzHK6+aw0KRIujufgYQdxit+N/J2xATnUy+3hiXBQprCnIGXYaNk2w=
+  hipchat:
+    rooms:
+      secure: A0rtcc5iWVOiKodiYxX8DzNn777k2boUWILXtfEKKXqHzxENYaj5EHeMT+kC+2F/rnnjS79fMFD9VU4d/dbjiQH4wzHMPA5gBGpOpb+q0zbLTxt4sYmn+9HqVoIu774ZSBkX1fh5y/MM6qrjUJbPLMuBylM88PhYu95hGL7TW1w=
+deploy:
+  provider: releases
+  api_key:
+    secure: hDQLqI8DMJ5lMqoo7PuXlNR6U0cr1kUXl+4X9DwYaA7QATrEoKfvm5Vt2q1yBJJiHZhRUF/eKdGe25hd5qQYoiMTHdq5Q4nqoWW+YlXyJXOt+D6r1jvR+jTvwee7mwBYR0TXJ68uganVOOTJElYa2QvNAUiISwr2WF7fzzwhMarvbXTEjUC0jQfcWbsMzjwaeFp64Y1OhZrW4R+os9J5Lu8lAYxQS/mTaU+7cRUmtB2VXWOOopxY3DToqmp8VX2+jn+IBDDLmQG9y4hM9RiYc2rybUmLprvEyCcKLQQtSAhOP1vKi0wTB2sDb5+Fj+mE6sh6bnUmKVeGTheOH6qbokEmgmBwdAyywSxogzLCBulL7XMLx4yA57kpslStTfYQKT+vu03PdA5ciiARINtuXO8eUTo+VX4Lsc6PzUifsLm7O41PP69RpvnXf0ySOud2gEz1d5x3mBtsZi5/jcxj/nk5D0rjnZ5D0sBr45uG3wVZ9WGud5CVwS4H+rHEBf5PZa2tYqpQ/FHqunrP9iFWCyUPnP1zZFP+2KV2Ya0MT5abaCaHfk/XWXNNwzJiTniY4dFjPX2AA+w68kzP4dFRLkbWxm1bd8CFxKEZ3+Aispyfp1lc9z8DcXMFGDWH+ss6WGEig49t2r9EhLN4sb47ZTLz3hg0pYaQIzZIy2HRN0k=
+  file_glob: true
+  file: build/libs/*
+  skip_cleanup: true
+  on:
+    all_bracnhes: true
+    tags: true
+    repo: xebialabs-community/xlr-octopus-deploy-plugin

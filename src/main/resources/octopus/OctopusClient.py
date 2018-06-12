@@ -74,32 +74,29 @@ class OctopusClient(object):
             "ProjectId": projectId,
             "SelectedPackages": packages
         }
-        print("data = %s" % data)
         response = self.httpRequest.post(url, headers=self.headers, body=json.dumps(data))
-        print("HTTP_SUCCESS = %s" % response.getStatus())
+        print("HTTP_STATUS = %s" % response.getStatus())
         if response.getStatus() in HTTP_SUCCESS:
             data = json.loads(response.getResponse())
-            print("data = %s" % data)
             return data["Id"]
         self.throw_error(response)
        
     def getEnvironmentId(self, environment):
         url = '/api/environments/all'
-        self.getId( url, environment )
+        return self.getId( url, environment )
 
     def getProjectId(self, project):
         url = '/api/projects/all'
-        self.getId( url, project )
+        return self.getId( url, project )
        
     def getId(self, url, objName):
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() not in HTTP_SUCCESS:
             self.throw_error("Response Error %s" % response.getStatus())
         data = json.loads(response.getResponse())
-        print("data = %s" % data)
         for obj in data:
-            print "NAME = %s/%s ID = %s" % (obj["Name"], objName, obj["Id"])
             if obj["Name"] == objName:
+                print "Found NAME = %s/%s ID = %s" % (obj["Name"], objName, obj["Id"])
                 return obj["Id"]
         sys.exit("Not Found")
 
@@ -111,7 +108,6 @@ class OctopusClient(object):
             self.throw_error(response)
     
         deployment_details = json.loads(response.getResponse())
-        print(json.dumps(deployment_details))
         taskUrl = deployment_details["Links"]["Task"]  
 
         time.sleep(5)
@@ -119,7 +115,6 @@ class OctopusClient(object):
 
         while not task_details["IsCompleted"]:            
             task_details = self.get_task_details(taskUrl)
-            print(json.dumps(task_details))
             time.sleep(5)
 
         if task_details["FinishedSuccessfully"]:

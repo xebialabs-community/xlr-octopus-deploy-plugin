@@ -92,7 +92,7 @@ class OctopusClient(object):
     def getId(self, url, objName):
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() not in HTTP_SUCCESS:
-            self.throw_error("Response Error %s" % response.getStatus())
+            self.throw_error(response)
         data = json.loads(response.getResponse())
         for obj in data:
             if obj["Name"] == objName:

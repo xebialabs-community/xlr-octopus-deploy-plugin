@@ -40,9 +40,9 @@ class OctopusClient(object):
         else:
             self.throw_error(response)
 
-    def start_deploy(self, project, release, environment):
-        environmentId = self.getEnvironmentId(environment)
-        releaseId = self.getReleaseId(project, release)
+    def start_deploy(self, projectName, releaseName, environmentName):
+        environmentId = self.getEnvironmentId(environmentName)
+        releaseId = self.getReleaseId(projectName, releaseName)
         url = '/api/deployments'
         data = {
             "ReleaseId":releaseId,

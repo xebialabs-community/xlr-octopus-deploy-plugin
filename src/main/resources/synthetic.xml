@@ -22,9 +22,9 @@
 
     <type type="octopus.Deploy" extends="xlrelease.PythonScript">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
-        <property name="release" category="input"/>
-        <property name="project" category="input"/>
-        <property name="environment" category="input"/>
+        <property name="releaseName" category="input"/>
+        <property name="projectName" category="input"/>
+        <property name="environmentName" category="input"/>
 
         <property name="deploymentId" category="output" />
     </type>

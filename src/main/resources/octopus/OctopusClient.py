@@ -42,6 +42,7 @@ class OctopusClient(object):
 
     def start_deploy(self, releaseId, environment):
         environmentId = self.getEnvironmentId(environment)
+        releaseId = self.getReleaseId(releaseId)
         url = '/api/deployments'
         data = {
             "ReleaseId":releaseId,
@@ -80,6 +81,10 @@ class OctopusClient(object):
             data = json.loads(response.getResponse())
             return data["Id"]
         self.throw_error(response)
+
+    def getReleaseId(self, releaseName):
+        url = '/api/releases/all'
+        return self.getId( url, releaseName )
        
     def getEnvironmentId(self, environment):
         url = '/api/environments/all'

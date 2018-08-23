@@ -40,9 +40,9 @@ class OctopusClient(object):
         else:
             self.throw_error(response)
 
-    def start_deploy(self, releaseId, environment):
+    def start_deploy(self, project, release, environment):
         environmentId = self.getEnvironmentId(environment)
-        releaseId = self.getReleaseId(releaseId)
+        releaseId = self.getReleaseId(project, release)
         url = '/api/deployments'
         data = {
             "ReleaseId":releaseId,
@@ -82,17 +82,30 @@ class OctopusClient(object):
             return data["Id"]
         self.throw_error(response)
 
-    def getReleaseId(self, releaseName):
-        url = '/api/releases/all'
-        return self.getId( url, releaseName )
+    def getReleaseId(self, projectName, releaseName):
+        projectId = self.getProjectId(projectName)
+        url = '/api/projects/%s/releases/%s' % (projectId, releaseName)
+        response = self.httpRequest.get(url, headers=self.headers)
+        if response.getStatus() not in HTTP_SUCCESS:
+            self.throw_error(response)
+        data = json.loads(response.getResponse())
+        releaseId = data["Id"]
+        print "Found Release Id [%s] for name [%s]" % (releaseId, releaseName)
+        return releaseId
        
     def getEnvironmentId(self, environment):
         url = '/api/environments/all'
         return self.getId( url, environment )
 
     def getProjectId(self, project):
-        url = '/api/projects/all'
-        return self.getId( url, project )
+        url = '/api/projects/%s' % project
+        response = self.httpRequest.get(url, headers=self.headers)
+        if response.getStatus() not in HTTP_SUCCESS:
+            self.throw_error(response)
+        data = json.loads(response.getResponse())
+        projectId = data["Id"]
+        print "Found Project Id [%s] for name [%s]" % (projectId, project)
+        return projectId
        
     def getId(self, url, objName):
         response = self.httpRequest.get(url, headers=self.headers)

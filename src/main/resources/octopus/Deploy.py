@@ -11,5 +11,5 @@
 from octopus.OctopusClient import OctopusClient
 
 client = OctopusClient(server, server['apiKey'])
-deploymentId = client.start_deploy(releaseId, environment)
+deploymentId = client.start_deploy(project, release, environment)
 client.wait_for_deploy(deploymentId)

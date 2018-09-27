@@ -8,8 +8,21 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+import sys
+
 from octopus.OctopusClient import OctopusClient
 
 client = OctopusClient(server, server['apiKey'])
-deploymentId = client.start_deploy(projectName, releaseName, environmentName)
+
+if not (releaseId or (releaseName and projectName)):
+	sys.exit("Specify either releaseId or releaseName AND projectName")
+
+if not environmentName:
+	sys.exit("Specify environment name.")
+
+if releaseId:
+	deploymentId = client.start_deploy_with_releaseid(releaseId, environmentName)
+else: 
+	deploymentId = client.start_deploy(projectName, releaseName, environmentName)
+
 client.wait_for_deploy(deploymentId)

@@ -17,35 +17,39 @@
     <type type="octopus.Server" extends="configuration.HttpConnection">
         <property name="apiKey" password="true" description="Api Key generated in your profile, see https://github.com/OctopusDeploy/OctopusDeploy-Api/wiki/Authentication" />
         <property name="username" default="ignored" category="input" hidden="true"/>
-    	<property name="password" password="true" default="ignored" category="input" hidden="true"/>
+        <property name="password" password="true" default="ignored" category="input" hidden="true"/>
     </type>
 
-    <type type="octopus.Deploy" extends="xlrelease.PythonScript">
+    <type type="octopus.Deploy" extends="xlrelease.PythonScript" description="Kick off a deploy, specify either the ReleaseId or the ProjectName and ReleaseName">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
-        <property name="releaseName" category="input"/>
-        <property name="projectName" category="input"/>
-        <property name="environmentName" category="input"/>
 
-        <property name="deploymentId" category="output" />
+        <property name="projectName" category="input" description="The name of the project (needed if ReleaseId isn't provided)." required="false"/>
+        <property name="releaseName" category="input" description="The name of the release (needed if ReleaseId isn't provided)." required="false"/>
+        <property name="releaseId" category="input" description="The technical id of the release, only neede if Project Name and Release Name aren't provided." required="false"/>
+
+        <property name="environmentName" category="input" description="The name of the environment"/>
+
+        <property name="deploymentId" category="output" description="The ID of the deployment that was kicked off."/>
     </type>
 
     <type type="octopus.CreateRelease" extends="xlrelease.PythonScript">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
-        <property name="project"          category="input"/>
-        <property name="version"          category="input"/>
-        <property name="selectedPackages" category="input" size="large"/>
+        <property name="project" category="input" description="The name of the project."/>
+        <property name="version" category="input" description="The human readable name of the version (like, 1.0.0)."/>
 
-        <property name="releaseId" category="output" />
+        <property name="selectedPackages" category="input" size="large" description="This fields allows you to specify which steps (which are linked to packages) should be which version. Example: [ {&quot;StepName&quot;:&quot;website&quot;, &quot;Version&quot;: &quot;1.0.3&quot;} ]. This fields should be valid JSON and to be more user friendly the future, we want to resolve this dynamically."/>
+
+        <property name="releaseId" category="output" description="The ID of the release that was created."/>
     </type>
 
-    <type type="octopus.getProjectId" extends="xlrelease.PythonScript">
+    <type type="octopus.getProjectId" extends="xlrelease.PythonScript" description="DEPRECATED - backwards compatible with 0.x and 1.x versions, will be removed in the future.">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
         <property name="project"   category="input"/>
 
         <property name="projectId" category="output" />
     </type>
 
-    <type type="octopus.getEnvironmentId" extends="xlrelease.PythonScript">
+    <type type="octopus.getEnvironmentId" extends="xlrelease.PythonScript" description="DEPRECATED - backwards compatible with 0.x and 1.x versions, will be removed in the future.">
         <property name="server" category="input" label="Server" referenced-type="octopus.Server" kind="ci" description="The Octopus server" />
         <property name="environment"        category="input"/>
 

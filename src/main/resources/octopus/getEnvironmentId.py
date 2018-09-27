@@ -10,4 +10,4 @@
 from octopus.OctopusClient import OctopusClient
 
 client = OctopusClient(server, server['apiKey'])
-environmentId = client.getEnvironmentId( environment )
+environmentId = client.get_environment_id( environment )

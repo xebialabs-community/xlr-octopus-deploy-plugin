@@ -10,4 +10,4 @@
 from octopus.OctopusClient import OctopusClient
 
 client = OctopusClient(server, server['apiKey'])
-releaseId = client.createRelease(version, projectId, selectedPackages)
+releaseId = client.create_release(version, project, selectedPackages)

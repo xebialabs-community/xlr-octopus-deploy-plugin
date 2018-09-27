@@ -41,22 +41,26 @@ class OctopusClient(object):
             self.throw_error(response)
 
     def start_deploy(self, projectName, releaseName, environmentName):
-        environmentId = self.getEnvironmentId(environmentName)
-        releaseId = self.getReleaseId(projectName, releaseName)
+        releaseId = self.get_release_id(projectName, releaseName)
+        return self.start_deploy_with_releaseid(releaseId, environmentName)
+
+    def start_deploy_with_releaseid(self, releaseId, environmentName):
+        environmentId = self.get_environment_id(environmentName)
+        
         url = '/api/deployments'
         data = {
-            "ReleaseId":releaseId,
-            "EnvironmentId":environmentId,
-            "TenantId":None,
-            "SkipActions":[],
-            "QueueTime":None,
-            "QueueTimeExpiry":None,
-            "FormValues":{},
-            "ForcePackageDownload":False,
-            "UseGuidedFailure":False,
-            "SpecificMachineIds":[],
-            "ExcludedMachineIds":[],
-            "ForcePackageRedeployment":False
+            "ReleaseId": releaseId,
+            "EnvironmentId": environmentId,
+            "TenantId": None,
+            "SkipActions": [],
+            "QueueTime": None,
+            "QueueTimeExpiry": None,
+            "FormValues": {},
+            "ForcePackageDownload": False,
+            "UseGuidedFailure": False,
+            "SpecificMachineIds": [],
+            "ExcludedMachineIds": [],
+            "ForcePackageRedeployment": False
         }
         print("data = %s" % data)
         response = self.httpRequest.post(url, headers=self.headers, body=json.dumps(data))
@@ -66,8 +70,8 @@ class OctopusClient(object):
             return data["Id"]
         self.throw_error(response)
 
-    def createRelease(self, version, project, selectedPackages):
-        projectId = self.getProjectId(project)
+    def create_release(self, version, project, selectedPackages):
+        projectId = self.get_project_id(project)
         url = '/api/releases'
         packages = json.loads(selectedPackages)
         data = {
@@ -82,8 +86,8 @@ class OctopusClient(object):
             return data["Id"]
         self.throw_error(response)
 
-    def getReleaseId(self, projectName, releaseName):
-        projectId = self.getProjectId(projectName)
+    def get_release_id(self, projectName, releaseName):
+        projectId = self.get_project_id(projectName)
         url = '/api/projects/%s/releases/%s' % (projectId, releaseName)
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() not in HTTP_SUCCESS:
@@ -93,12 +97,13 @@ class OctopusClient(object):
         print "Found Release Id [%s] for name [%s]" % (releaseId, releaseName)
         return releaseId
        
-    def getEnvironmentId(self, environment):
+    def get_environment_id(self, environment):
         url = '/api/environments/all'
-        return self.getId( url, environment )
+        return self._get_id( url, environment )
 
-    def getProjectId(self, project):
+    def get_project_id(self, project):
         url = '/api/projects/%s' % project
+        # TODO remove code duplication with get_release_id
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() not in HTTP_SUCCESS:
             self.throw_error(response)
@@ -107,7 +112,7 @@ class OctopusClient(object):
         print "Found Project Id [%s] for name [%s]" % (projectId, project)
         return projectId
        
-    def getId(self, url, objName):
+    def _get_id(self, url, objName):
         response = self.httpRequest.get(url, headers=self.headers)
         if response.getStatus() not in HTTP_SUCCESS:
             self.throw_error(response)

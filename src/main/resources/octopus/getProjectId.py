@@ -10,4 +10,4 @@
 from octopus.OctopusClient import OctopusClient
 
 client = OctopusClient(server, server['apiKey'])
-projectId = client.getProjectId( project )
+projectId = client.get_project_id( project )

@@ -1,5 +1,6 @@
-# Octopus Deploy plugin
+# [DEPRECATED] Octopus Deploy plugin
 
+The communtiy Octopus Deploy plugin has been insourced and is now officially supported by XebiaLabs.  Please use that plugin going forward.  This plugin will be removed soon.
 
 [![Build Status][xlr-octopus-deploy-plugin-travis-image]][xlr-octopus-deploy-plugin-travis-url]
 [![Maintainability][xlr-octopus-deploy-plugin-Maintainability-url]][xlr-octopus-deploy-plugin-Maintainability-image]
